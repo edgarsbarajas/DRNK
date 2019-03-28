@@ -78,8 +78,8 @@ const styles = {
     paddingLeft: 10
   },
   eventName: {
-    fontFamily: 'ArialHebrew-Bold',
-    fontSize: 18
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   timeContainer: {
     flexDirection: 'row',
@@ -93,9 +93,10 @@ const styles = {
     paddingLeft: 2
   },
   venueInfoContainer: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexWrap: 'wrap'
   },
   venueInfo: {
     flexDirection: 'row',

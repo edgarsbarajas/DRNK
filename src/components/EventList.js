@@ -10,7 +10,7 @@ import SearchBar from './SearchBar';
 class EventList extends Component {
   componentWillMount() {
     // this.props.getUserLocation();
-    this.props.getEventsByUserLocation();
+    // this.props.getEventsByUserLocation();
   }
 
   render() {

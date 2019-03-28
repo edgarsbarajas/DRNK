@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   city: 'Oakland',
   when: { value: 'all dates', index: 0 },
   filter: { value: 'Distance', index: 0 },
-  searchBarVisible: false
+  searchBarVisible: true
 };
 
 export default (state = INITIAL_STATE, action) => {

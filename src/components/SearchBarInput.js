@@ -9,7 +9,7 @@ class SearchBarInput extends Component {
   renderInput() {
     if(this.props.type === 'picker') {
       console.log('******picker value', this.props.value);
-      console.log('******picker label', this.props.label);
+      console.log('******picker label', this.props.pickerLabel);
       return (
         <View style={styles.pickerContainer}>
           <RNPickerSelect
@@ -18,7 +18,7 @@ class SearchBarInput extends Component {
             value={this.props.value.value}
             onValueChange={(value, index) => this.props.onSearchBarValueChange({ prop: this.props.prop, value: { value, index } }) }
           >
-            <Text style={styles.pickerText}>{this.props.label}</Text>
+            <Text style={styles.pickerText}>{this.props.pickerLabel}</Text>
           </RNPickerSelect>
         </View>
       );
@@ -36,11 +36,11 @@ class SearchBarInput extends Component {
   }
 
   render() {
-    const { icon, halfSize, placeholder, type } = this.props;
+    const { halfSize, placeholder, type, label } = this.props;
 
     return (
       <View style={[styles.inputContainer, styles.focusedBorder, halfSize && {flex: 2}]}>
-        <SvgUri width='18' height='18' source={icon} />
+        <Text style={styles.label}>{label}</Text>
         { this.renderInput() }
       </View>
     );
@@ -54,26 +54,32 @@ const styles = {
     marginBottom: 20,
     paddingRight: 10,
     paddingLeft: 10,
-    height: 40,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 2
+    flexDirection: 'column',
+    borderBottomWidth: 2,
+    height: 50
+  },
+  label: {
+    textTransform: 'uppercase',
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginLeft: -10,
+    color: '#FFFFFF'
   },
   input: {
     flex: 1,
-    marginLeft: 15,
     color: '#FFFFFF',
-    fontSize: 16
+    fontSize: 18,
+    marginLeft: 15
   },
   pickerContainer: {
     marginLeft: 15,
     flex: 1,
-    alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   pickerText: {
-    fontSize: 16,
-    color: '#FFFFFF'
+    fontSize: 18,
+    color: '#FFFFFF',
   },
   unfocusedBorder: {
     borderColor: 'red'

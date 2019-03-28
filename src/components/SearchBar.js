@@ -35,27 +35,27 @@ class SearchBar extends Component {
           <SearchBarInput
             type='text'
             placeholder='San Francisco'
-            icon={require('../../assets/svgs/gem.svg')}
+            label='where?'
             prop='city'
             value={this.props.searchBar.city}
            />
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <SearchBarInput
               halfSize
-              icon={require('../../assets/svgs/calendar.svg')}
+              label='when?'
               items={timeItems}
               type='picker'
               prop='when'
-              label={timeItems[this.props.searchBar.when.index].label}
+              pickerLabel={timeItems[this.props.searchBar.when.index].label}
               value={this.props.searchBar.when.value}
             />
             <SearchBarInput
               halfSize
-              icon={require('../../assets/svgs/filter.svg')}
+              label='filter'
               type='picker'
               prop='filter'
               items={filterItems}
-              label={filterItems[this.props.searchBar.filter.index].label}
+              pickerLabel={filterItems[this.props.searchBar.filter.index].label}
               value={this.props.searchBar.filter.value}
             />
           </View>
