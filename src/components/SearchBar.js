@@ -59,15 +59,13 @@ class SearchBar extends Component {
               value={this.props.searchBar.filter.value}
             />
           </View>
-          <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.getEventsBySearch({city: this.props.searchBar.city, startDateKeyword: this.props.searchBar.when.value})}
-              underlayColor='#10E7DC'
-            >
-              <Text style={styles.buttonText}>DRNK</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.getEventsBySearch({city: this.props.searchBar.city, startDateKeyword: this.props.searchBar.when.value})}
+            underlayColor='#10E7DC'
+          >
+            <Text style={styles.buttonText}>DRNK</Text>
+          </TouchableOpacity>
         </View>
       );
     } else {
@@ -78,14 +76,16 @@ class SearchBar extends Component {
 
 const styles = {
   button: {
-    borderWidth: 0,
     backgroundColor: '#10E7DC',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
+    height: 45,
     marginRight: 10,
-    marginLeft: 10
+    marginLeft: 10,
+    width: '40%',
+    alignSelf: 'center',
+    borderRadius: 2
   },
   buttonText: {
     color: '#44147c',
