@@ -78,8 +78,8 @@ class SearchBar extends Component {
 
 const styles = {
   button: {
-    borderWidth: 2,
-    borderColor: '#10E7DC',
+    borderWidth: 0,
+    backgroundColor: '#10E7DC',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -88,8 +88,9 @@ const styles = {
     marginLeft: 10
   },
   buttonText: {
-    color: '#10E7DC',
-    fontSize: 16
+    color: '#44147c',
+    fontSize: 18,
+    fontWeight: 'bold'
   }
 }
 
