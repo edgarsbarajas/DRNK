@@ -41,6 +41,8 @@ export const getEventsByUserLocation = () => dispatch => {
 }
 
 export const getEventsBySearch = ({city, startDateKeyword}) => dispatch => {
+  dispatch({ type: TOGGLE_SEARCH_BAR });
+
   getUserLocation((pos) => {
     const { latitude, longitude } = pos.coords;
     console.log('process.env', process.env);
@@ -65,13 +67,11 @@ export const getEventsBySearch = ({city, startDateKeyword}) => dispatch => {
 
         console.log(events);
         dispatch({ type: TOGGLE_LOADING });
-        dispatch({ type: TOGGLE_SEARCH_BAR });
         dispatch(setEvents(events));
       })
       .catch(error => console.log(error))
   }, (error) => {
     dispatch({ type: TOGGLE_LOADING });
-    dispatch({ type: TOGGLE_SEARCH_BAR });
     console.log('****error from action');
   })
 }

@@ -8,8 +8,6 @@ import SvgUri from 'react-native-svg-uri';
 class SearchBarInput extends Component {
   renderInput() {
     if(this.props.type === 'picker') {
-      console.log('******picker value', this.props.value);
-      console.log('******picker label', this.props.pickerLabel);
       return (
         <View style={styles.pickerContainer}>
           <RNPickerSelect
@@ -24,20 +22,35 @@ class SearchBarInput extends Component {
       );
     } else if(this.props.type === 'text') {
       return (
-        <TextInput
-          placeholder={this.props.placeholder}
-          placeholderTextColor='#777'
-          style={styles.input}
-          onChangeText={value => this.props.onSearchBarValueChange({prop: this.props.prop, value})}
-          value={this.props.value}
-        />
+        <View style={styles.textInputContainer}>
+          <TextInput
+            placeholder={this.props.placeholder}
+            placeholderTextColor='#777'
+            style={styles.input}
+            onChangeText={value => this.props.onSearchBarValueChange({prop: this.props.prop, value})}
+            value={this.props.value}
+          />
+        {this.renderClearTextButton()}
+        </View>
       );
     }
   }
 
+  renderClearTextButton() {
+    if(this.props.value) {
+      return (
+        <Text
+          onPress={() => this.props.onSearchBarValueChange({prop: this.props.prop, value: ''})}>
+          clear
+        </Text>
+      )
+    }
+
+    return null;
+  }
+
   render() {
     const { halfSize, placeholder, type, label } = this.props;
-
     return (
       <View style={[styles.inputContainer, styles.focusedBorder, halfSize && {flex: 2}]}>
         <Text style={styles.label}>{label}</Text>
@@ -51,7 +64,8 @@ const styles = {
   inputContainer: {
     marginRight: 10,
     marginLeft: 10,
-    marginBottom: 20,
+    marginBottom: 10,
+    marginTop: 10,
     paddingRight: 10,
     paddingLeft: 10,
     flexDirection: 'column',
@@ -64,6 +78,12 @@ const styles = {
     fontWeight: 'bold',
     marginLeft: -10,
     color: '#FFFFFF'
+  },
+  textInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1
   },
   input: {
     flex: 1,
