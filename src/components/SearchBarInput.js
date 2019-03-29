@@ -39,10 +39,16 @@ class SearchBarInput extends Component {
   renderClearTextButton() {
     if(this.props.value) {
       return (
-        <Text
-          onPress={() => this.props.onSearchBarValueChange({prop: this.props.prop, value: ''})}>
-          clear
-        </Text>
+        <TouchableOpacity
+          style={styles.clearButtonContainer}
+          onPress={() => this.props.onSearchBarValueChange({prop: this.props.prop, value: ''})}
+        >
+          <SvgUri
+            width='16'
+            height='16'
+            source={require('../../assets/svgs/clear.svg')}
+          />
+        </TouchableOpacity>
       )
     }
 
@@ -106,6 +112,10 @@ const styles = {
   },
   focusedBorder: {
     borderColor: '#10E7DC'
+  },
+  clearButtonContainer: {
+    paddingLeft: 10,
+    paddingRight: 10
   }
 }
 
