@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Router , Scene } from 'react-native-router-flux';
 import EventList from './components/EventList';
 import EventDetails from './components/EventDetails';
-import NavBar from './components/NavBar.js';
 import { toggleSearchBar } from './actions/SearchBarActions';
 
 class RouterComponent extends Component {
