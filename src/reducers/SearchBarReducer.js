@@ -2,9 +2,9 @@ import { SET_SEARCH_BAR_VALUE, TOGGLE_SEARCH_BAR } from '../actions/types';
 
 const INITIAL_STATE = {
   city: 'Oakland',
-  when: { value: 'all dates', index: 0 },
-  filter: { value: 'Distance', index: 0 },
-  searchBarVisible: false
+  when: { value: '', index: 0 },
+  filter: { value: 'best', index: 0 },
+  searchBarVisible: true
 };
 
 export default (state = INITIAL_STATE, action) => {

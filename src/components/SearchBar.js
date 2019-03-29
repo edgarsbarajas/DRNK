@@ -3,17 +3,29 @@ import { View, Text, TouchableOpacity, LayoutAnimation } from 'react-native';
 import { connect } from 'react-redux';
 import SearchBarInput from './SearchBarInput';
 import { getEventsBySearch } from '../actions/EventActions';
+import { onSearchBarValueChange } from '../actions/SearchBarActions';
 
 class SearchBar extends Component {
   componentWillReceiveProps(nextProps) {
-    if(nextProps.searchBar.searchBarVisible !== this.props.searchBar.searchBarVisible) {
-      LayoutAnimation.spring();
+      LayoutAnimation.easeInEaseOut();
+  }
+
+  renderCurrentLocationSearchOption() {
+    if(!this.props.searchBar.city) {
+      return (
+        <TouchableOpacity style={styles.currentLocationSearchOption} onPress={() => this.props.onSearchBarValueChange({prop: 'city', value: 'Current Location'})}>
+          <Text style={styles.currentLocationSearchOptionText}>Current Location</Text>
+        </TouchableOpacity>
+      );
     }
+
+    return null;
   }
 
   render() {
+    console.log('props', this.props.searchBar);
     const timeItems = [
-      { label: 'All dates', value: 'all dates' },
+      { label: 'All dates', value: '' },
       { label: 'Today', value: 'today' },
       { label: 'Tomorrow', value: 'tomorrow' },
       { label: 'This week', value: 'this_week' },
@@ -24,8 +36,9 @@ class SearchBar extends Component {
     ];
 
     const filterItems = [
-      { label: 'Distance', value: 'Distance' },
-      { label: 'Time', value: 'Time' }
+      { label: 'Best', value: 'best' },
+      { label: 'Distance', value: 'distance' },
+      { label: 'Date', value: 'date' }
     ];
 
     if(this.props.searchBar.searchBarVisible) {
@@ -35,39 +48,41 @@ class SearchBar extends Component {
           <SearchBarInput
             type='text'
             placeholder='San Francisco'
-            icon={require('../../assets/svgs/gem.svg')}
+            label='where?'
             prop='city'
-            value={this.props.searchBar.city}
-           />
+            value={this.props.searchBar.city} />
+          {this.renderCurrentLocationSearchOption()}
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <SearchBarInput
               halfSize
-              icon={require('../../assets/svgs/calendar.svg')}
+              label='when?'
               items={timeItems}
               type='picker'
               prop='when'
-              label={timeItems[this.props.searchBar.when.index].label}
+              pickerLabel={timeItems[this.props.searchBar.when.index].label}
               value={this.props.searchBar.when.value}
             />
             <SearchBarInput
               halfSize
-              icon={require('../../assets/svgs/filter.svg')}
+              label='filter'
               type='picker'
               prop='filter'
               items={filterItems}
-              label={filterItems[this.props.searchBar.filter.index].label}
+              pickerLabel={filterItems[this.props.searchBar.filter.index].label}
               value={this.props.searchBar.filter.value}
             />
           </View>
-          <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.getEventsBySearch({city: this.props.searchBar.city, startDateKeyword: this.props.searchBar.when.value})}
-              underlayColor='#10E7DC'
-            >
-              <Text style={styles.buttonText}>DRNK</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.getEventsBySearch({
+              city: this.props.searchBar.city,
+              startDateKeyword: this.props.searchBar.when.value,
+              filter: this.props.searchBar.filter.value
+            })}
+            underlayColor='#10E7DC'
+          >
+            <Text style={styles.buttonText}>DRNK</Text>
+          </TouchableOpacity>
         </View>
       );
     } else {
@@ -78,18 +93,40 @@ class SearchBar extends Component {
 
 const styles = {
   button: {
-    borderWidth: 2,
-    borderColor: '#10E7DC',
+    backgroundColor: '#10E7DC',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
+    height: 45,
+    marginTop: 10,
     marginRight: 10,
-    marginLeft: 10
+    marginLeft: 10,
+    width: '40%',
+    alignSelf: 'center',
+    borderRadius: 2,
+    shadowOffset:{  width: 0,  height: 1  },
+    shadowColor: '#000000',
+    shadowOpacity: .5,
   },
   buttonText: {
+    color: '#44147c',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  currentLocationSearchOption: {
+    marginLeft: 10,
+    marginBottom: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderWidth: 2,
+    borderColor: '#10E7DC',
+    width: 170,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  currentLocationSearchOptionText: {
     color: '#10E7DC',
-    fontSize: 16
+    fontSize: 18
   }
 }
 
@@ -97,4 +134,4 @@ const mapStateToProps = state => ({
   searchBar: state.searchBar
 })
 
-export default connect(mapStateToProps, { getEventsBySearch })(SearchBar);
+export default connect(mapStateToProps, { getEventsBySearch, onSearchBarValueChange })(SearchBar);

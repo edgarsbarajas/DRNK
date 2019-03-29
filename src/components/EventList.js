@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, LayoutAnimation } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -8,9 +8,12 @@ import EventTile from './EventTile';
 import SearchBar from './SearchBar';
 
 class EventList extends Component {
-  componentWillMount() {
-    // this.props.getUserLocation();
-    this.props.getEventsByUserLocation();
+  componentDidMount() {
+    // this.props.getEventsByUserLocation();
+  }
+
+  componentWillReceiveProps() {
+      LayoutAnimation.easeInEaseOut();
   }
 
   render() {
