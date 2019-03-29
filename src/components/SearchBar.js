@@ -25,7 +25,7 @@ class SearchBar extends Component {
   render() {
     console.log('props', this.props.searchBar);
     const timeItems = [
-      { label: 'All dates', value: 'all dates' },
+      { label: 'All dates', value: '' },
       { label: 'Today', value: 'today' },
       { label: 'Tomorrow', value: 'tomorrow' },
       { label: 'This week', value: 'this_week' },
@@ -36,8 +36,9 @@ class SearchBar extends Component {
     ];
 
     const filterItems = [
-      { label: 'Distance', value: 'Distance' },
-      { label: 'Time', value: 'Time' }
+      { label: 'Best', value: 'best' },
+      { label: 'Distance', value: 'distance' },
+      { label: 'Date', value: 'date' }
     ];
 
     if(this.props.searchBar.searchBarVisible) {
@@ -73,7 +74,11 @@ class SearchBar extends Component {
           </View>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.getEventsBySearch({city: this.props.searchBar.city, startDateKeyword: this.props.searchBar.when.value})}
+            onPress={() => this.props.getEventsBySearch({
+              city: this.props.searchBar.city,
+              startDateKeyword: this.props.searchBar.when.value,
+              filter: this.props.searchBar.filter.value
+            })}
             underlayColor='#10E7DC'
           >
             <Text style={styles.buttonText}>DRNK</Text>

@@ -10,7 +10,7 @@ export const getEventsByUserLocation = () => dispatch => {
   getUserLocation((pos) => {
     const { latitude, longitude } = pos.coords;
     console.log(latitude, longitude);
-    const url = `https://www.eventbriteapi.com/v3/events/search/?token=${EVENTBRITE_API_KEY}&location.within=10mi&location.latitude=${latitude}&location.longitude=${longitude}&sort_by=date&categories=110&subcategories=10001&expand=venue`;
+    const url = `https://www.eventbriteapi.com/v3/events/search/?token=${EVENTBRITE_API_KEY}&location.within=10mi&location.latitude=${latitude}&location.longitude=${longitude}&sort_by=best&categories=110&subcategories=10001&expand=venue`;
 
     console.log('updated user location');
 
@@ -40,15 +40,16 @@ export const getEventsByUserLocation = () => dispatch => {
   })
 }
 
-export const getEventsBySearch = ({city, startDateKeyword}) => dispatch => {
+export const getEventsBySearch = ({city, startDateKeyword, filter}) => dispatch => {
   dispatch({ type: TOGGLE_SEARCH_BAR });
+
+  console.log('events by search', {city, startDateKeyword, filter})
 
   getUserLocation((pos) => {
     const { latitude, longitude } = pos.coords;
-    console.log('process.env', process.env);
-    console.log('process.env[]', process.env['EVENTBRITE_API_KEY']);
-    const url = `https://www.eventbriteapi.com/v3/events/search/?token=${EVENTBRITE_API_KEY}&location.address=${city}&start_date.keyword=${startDateKeyword}&sort_by=date&categories=110&subcategories=10001&expand=venue`;
+    const url = `https://www.eventbriteapi.com/v3/events/search/?token=${EVENTBRITE_API_KEY}&location.address=${city}&start_date.keyword=${startDateKeyword}&sort_by=${filter}&categories=110&subcategories=10001&expand=venue`;
     console.log('updated user location');
+    console.log('events by search url: ', url);
 
     axios
       .get(url)
@@ -64,6 +65,13 @@ export const getEventsBySearch = ({city, startDateKeyword}) => dispatch => {
             venueCoords: { latitude: event.venue.latitude, longitude: event.venue.longitude }
           })
         })
+
+        if(filter === 'distance') {
+          console.log('reorder the events by distance', events);
+          events.sort((event1, event2) => {
+            return event1.distanceFromUser - event2.distanceFromUser;
+          });
+        }
 
         console.log(events);
         dispatch({ type: TOGGLE_LOADING });

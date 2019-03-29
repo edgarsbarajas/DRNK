@@ -8,6 +8,10 @@ import EventTile from './EventTile';
 import SearchBar from './SearchBar';
 
 class EventList extends Component {
+  componentDidMount() {
+    this.props.getEventsByUserLocation();
+  }
+
   componentWillReceiveProps() {
       LayoutAnimation.easeInEaseOut();
   }
