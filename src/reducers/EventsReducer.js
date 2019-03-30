@@ -1,8 +1,8 @@
-import { SET_EVENTS, TOGGLE_LOADING } from '../actions/types';
+import { SET_EVENTS, SET_LOADING } from '../actions/types';
 
 const INITIAL_STATE = {
   events: [],
-  loading: false
+  loading: true
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -10,8 +10,8 @@ export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
     case SET_EVENTS:
       return { ...state, events: action.payload };
-    case TOGGLE_LOADING:
-      return { ...state, loading: !state.loading };
+    case SET_LOADING:
+      return { ...state, loading: action.payload };
     default:
       return state;
   }

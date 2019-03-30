@@ -1,10 +1,12 @@
 import axios from 'axios';
 import geolib from 'geolib';
-import { getUserLocation } from './LocationActions';
-import { SET_EVENTS, TOGGLE_SEARCH_BAR, TOGGLE_LOADING } from './types';
+import { getUserLocation, setUserLocation } from './LocationActions';
+import { SET_EVENTS, TOGGLE_SEARCH_BAR, SET_LOADING } from './types';
 import { EVENTBRITE_API_KEY } from '../../keys';
 
 export const getEventsByUserLocation = (data = {}) => dispatch => {
+  dispatch({ type: SET_LOADING, payload: true });
+
   const { startDateKeyword = '', filter = '' } = data;
 
   getUserLocation((pos) => {
@@ -24,18 +26,20 @@ export const getEventsByUserLocation = (data = {}) => dispatch => {
           })
         })
 
-        dispatch({ type: TOGGLE_LOADING });
+        dispatch(setUserLocation(pos));
+        dispatch({ type: SET_LOADING, payload: false });
         dispatch(setEvents(events));
       })
       .catch(error => console.log(error))
   }, (error) => {
-    dispatch({ type: TOGGLE_LOADING });
+    dispatch({ type: SET_LOADING, payload: false });
     console.log('****error from action');
   })
 }
 
 export const getEventsBySearch = ({city, startDateKeyword, filter}) => dispatch => {
   dispatch({ type: TOGGLE_SEARCH_BAR });
+  dispatch({ type: SET_LOADING, payload: true });
 
   if(city === 'Current Location') {
     return dispatch(getEventsByUserLocation({startDateKeyword, filter}));
@@ -61,12 +65,12 @@ export const getEventsBySearch = ({city, startDateKeyword, filter}) => dispatch 
           events = sortEventsByDistance(events);
         }
 
-        dispatch({ type: TOGGLE_LOADING });
+        dispatch({ type: SET_LOADING, payload: false });
         dispatch(setEvents(events));
       })
       .catch(error => console.log(error))
   }, (error) => {
-    dispatch({ type: TOGGLE_LOADING });
+    dispatch({ type: SET_LOADING, payload: false });
     console.log('****error from action');
   })
 }

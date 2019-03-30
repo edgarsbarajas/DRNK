@@ -5,6 +5,6 @@ export const getUserLocation = (success, fail) => {
   navigator.geolocation.getCurrentPosition(success, fail);
 }
 
-const setUserLocation = (pos) => {
+export const setUserLocation = (pos) => {
   return { type: SET_USER_LOCATION, payload: pos};
 }

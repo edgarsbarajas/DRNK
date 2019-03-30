@@ -1,7 +1,7 @@
 import { SET_USER_LOCATION } from '../actions/types';
 
 const INITIAL_STATE = {
-  position: {}
+  position: null
 };
 
 export default (state = INITIAL_STATE, action) => {

@@ -42,9 +42,8 @@ class SearchBar extends Component {
     ];
 
     if(this.props.searchBar.searchBarVisible) {
-      console.log('seatchbar props from searchbar component: ', this.props.searchBar);
       return (
-        <View style={{marginBottom: 15}}>
+        <View style={styles.searchBarContainer}>
           <SearchBarInput
             type='text'
             placeholder='San Francisco'
@@ -92,6 +91,10 @@ class SearchBar extends Component {
 }
 
 const styles = {
+  searchBarContainer: {
+    marginBottom: 15,
+    width: '100%'
+  },
   button: {
     backgroundColor: '#10E7DC',
     flexDirection: 'row',
