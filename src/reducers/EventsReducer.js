@@ -2,7 +2,7 @@ import { SET_EVENTS, SET_LOADING } from '../actions/types';
 
 const INITIAL_STATE = {
   events: [],
-  loading: true
+  loading: false
 };
 
 export default (state = INITIAL_STATE, action) => {

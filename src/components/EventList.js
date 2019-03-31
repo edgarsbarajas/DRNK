@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, LayoutAnimation } from 'react-native';
+import { View, Text, FlatList, LayoutAnimation, Linking } from 'react-native';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { getEventsByUserLocation } from '../actions/EventActions';
 import EventTile from './EventTile';
 import SearchBar from './SearchBar';
+import LocationWarningMessage from './LocationWarningMessage';
 import Spinner from './common/Spinner';
+import Button from './common/Button';
+
 
 class EventList extends Component {
   componentDidMount() {
     this.props.getEventsByUserLocation();
+    console.log('!!!!!CHECK IF LOADING!!!!! #UPDATED');
   }
 
   componentWillReceiveProps() {
@@ -21,14 +25,26 @@ class EventList extends Component {
     const { loading, events, userLocation } = this.props;
 
     if(loading) {
-      return <Spinner size='large' />;
-    } else if(userLocation === null) {
-      return <Text>Cannot get location</Text>
+      console.log('!!!!!!!LOADING BITCH!!!!!!!');
+      return <Spinner />;
+    } else if(userLocation.errorCode === 1 && events.length <= 0) { // User denied access to location services.
+      console.log('!!!!!!NO LOCATION SERVICES BITCH!!!!!!');
+      return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginRight: 10, marginLeft: 10}}>
+          <Text style={{color: '#FFFFFF', fontSize: 18,  marginBottom: 10, textAlign: 'center'}}>
+            DRNK needs your location to get events near you
+          </Text>
+          <Button onPress={() => Linking.openURL('app-settings://barhopping101/')}>
+            SETTINGS
+          </Button>
+        </View>
+      );
     } else if(events.length > 0) {
+      console.log('!!!!!!EVENTS BITCH!!!!!!');
       return (
         <FlatList
           data={events}
-          renderItem={({item}) => { console.log('item being passed to tile', item); return <EventTile event={item} />;}}
+          renderItem={({item}) => <EventTile event={item} />}
           keyExtractor={item => item.id}
         />
       );
@@ -41,6 +57,7 @@ class EventList extends Component {
     return (
       <LinearGradient colors={['#320086', '#FF0AF4']} style={styles.linearGradient}>
         <SearchBar />
+        <LocationWarningMessage />
         {this.renderEventList()}
       </LinearGradient>
     );
@@ -57,7 +74,7 @@ const styles = {
 const mapStateToProps = state => ({
   events: state.events.events,
   loading: state.events.loading,
-  userLocation: state.userLocation.position
+  userLocation: state.userLocation
 });
 
 export default connect(mapStateToProps, { getEventsByUserLocation })(EventList);

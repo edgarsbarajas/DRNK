@@ -1,14 +1,16 @@
-import { SET_USER_LOCATION } from '../actions/types';
+import { SET_USER_LOCATION, SET_USER_LOCATION_ERROR_CODE } from '../actions/types';
 
 const INITIAL_STATE = {
-  position: null
+  position: {},
+  errorCode: 2
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log(action);
   switch(action.type) {
     case SET_USER_LOCATION:
-      return { ...state, position: action.payload };
+      return { ...state, position: action.payload, errorCode: null };
+    case SET_USER_LOCATION_ERROR_CODE:
+      return { ...state, errorCode: action.payload, position: {} };
     default:
       return state;
   }
