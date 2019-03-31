@@ -24,7 +24,7 @@ class SearchBar extends Component {
   }
 
   render() {
-    console.log('props', this.props.searchBar);
+    console.log('1919191919 SEARCH BAR PROPS', this.props.searchBar);
     const timeItems = [
       { label: 'All dates', value: '' },
       { label: 'Today', value: 'today' },
@@ -36,11 +36,20 @@ class SearchBar extends Component {
       { label: 'Next month', value: 'next_month' }
     ];
 
-    const filterItems = [
-      { label: 'Best', value: 'best' },
-      { label: 'Distance', value: 'distance' },
-      { label: 'Date', value: 'date' }
-    ];
+    let filterItems;
+
+    if(this.props.userLocation.errorCode !== null) {
+      filterItems = [
+        { label: 'Best', value: 'best' },
+        { label: 'Date', value: 'date' }
+      ];
+    } else {
+      filterItems = [
+        { label: 'Best', value: 'best' },
+        { label: 'Distance', value: 'distance' },
+        { label: 'Date', value: 'date' }
+      ];
+    }
 
     if(this.props.searchBar.searchBarVisible) {
       return (
@@ -112,7 +121,8 @@ const styles = {
 }
 
 const mapStateToProps = state => ({
-  searchBar: state.searchBar
+  searchBar: state.searchBar,
+  userLocation: state.userLocation
 })
 
 export default connect(mapStateToProps, { getEventsBySearch, onSearchBarValueChange })(SearchBar);
