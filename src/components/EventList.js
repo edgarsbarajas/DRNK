@@ -7,6 +7,7 @@ import { getEventsByUserLocation } from '../actions/EventActions';
 import EventTile from './EventTile';
 import SearchBar from './SearchBar';
 import LocationWarningMessage from './LocationWarningMessage';
+import NumberOfEvents from './NumberOfEvents';
 import Spinner from './common/Spinner';
 import Button from './common/Button';
 
@@ -60,6 +61,7 @@ class EventList extends Component {
       <LinearGradient colors={['#320086', '#FF0AF4']} style={styles.linearGradient}>
         <SearchBar />
         <LocationWarningMessage />
+        <NumberOfEvents />
         {this.renderEventList()}
       </LinearGradient>
     );
