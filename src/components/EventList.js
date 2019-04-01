@@ -38,8 +38,6 @@ class EventList extends Component {
           keyExtractor={item => item.id}
         />
       );
-    } else if(events.length <= 0 && userLocation.errorCode !== 1) {
-      return <Text>No events</Text>
     } else if(userLocation.errorCode === 1 && events.length <= 0 && city === 'Current Location') { // User denied access to location services.
       console.log('!!!!!!NO LOCATION SERVICES BITCH!!!!!!');
       return (
