@@ -15,6 +15,21 @@ class EventTile extends Component {
     return { uri: eventLogo.original.url };
   }
 
+  renderDistanceToVenue() {
+    const { distanceFromUser } = this.props.event;
+
+    if(distanceFromUser) {
+      return (
+        <View style={styles.venueInfo}>
+          <SvgUri width='18' height='18' style={styles.venueIcon} source={require('../../assets/svgs/paper-plane.svg')} />
+          <Text style={styles.timeText}>{distanceFromUser} mi away</Text>
+        </View>
+      );
+    }
+
+    return null;
+  }
+
   render() {
     const { event, userLocation } = this.props;
     const startDate = moment(event.start.local).format('MMM Do YY, h:mm a');
@@ -38,10 +53,7 @@ class EventTile extends Component {
               <SvgUri width='18' height='18' style={styles.venueIcon} source={require('../../assets/svgs/building.svg')} />
               <Text style={styles.timeText}>{event.venue.name}</Text>
             </View>
-            <View style={styles.venueInfo}>
-              <SvgUri width='18' height='18' style={styles.venueIcon} source={require('../../assets/svgs/paper-plane.svg')} />
-              <Text style={styles.timeText}>{event.distanceFromUser} mi away</Text>
-            </View>
+            {this.renderDistanceToVenue()}
           </View>
         </ImageBackground>
       </TouchableOpacity>

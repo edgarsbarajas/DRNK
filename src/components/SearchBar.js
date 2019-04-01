@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import SearchBarInput from './SearchBarInput';
 import { getEventsBySearch } from '../actions/EventActions';
 import { onSearchBarValueChange } from '../actions/SearchBarActions';
+import Button from './common/Button';
 
 class SearchBar extends Component {
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
       LayoutAnimation.easeInEaseOut();
   }
 
@@ -23,7 +24,7 @@ class SearchBar extends Component {
   }
 
   render() {
-    console.log('props', this.props.searchBar);
+    console.log('1919191919 SEARCH BAR PROPS', this.props.searchBar);
     const timeItems = [
       { label: 'All dates', value: '' },
       { label: 'Today', value: 'today' },
@@ -35,16 +36,24 @@ class SearchBar extends Component {
       { label: 'Next month', value: 'next_month' }
     ];
 
-    const filterItems = [
-      { label: 'Best', value: 'best' },
-      { label: 'Distance', value: 'distance' },
-      { label: 'Date', value: 'date' }
-    ];
+    let filterItems;
+
+    if(this.props.userLocation.errorCode !== null) {
+      filterItems = [
+        { label: 'Best', value: 'best' },
+        { label: 'Date', value: 'date' }
+      ];
+    } else {
+      filterItems = [
+        { label: 'Best', value: 'best' },
+        { label: 'Distance', value: 'distance' },
+        { label: 'Date', value: 'date' }
+      ];
+    }
 
     if(this.props.searchBar.searchBarVisible) {
-      console.log('seatchbar props from searchbar component: ', this.props.searchBar);
       return (
-        <View style={{marginBottom: 15}}>
+        <View style={styles.searchBarContainer}>
           <SearchBarInput
             type='text'
             placeholder='San Francisco'
@@ -72,17 +81,15 @@ class SearchBar extends Component {
               value={this.props.searchBar.filter.value}
             />
           </View>
-          <TouchableOpacity
-            style={styles.button}
+          <Button
             onPress={() => this.props.getEventsBySearch({
               city: this.props.searchBar.city,
               startDateKeyword: this.props.searchBar.when.value,
               filter: this.props.searchBar.filter.value
             })}
-            underlayColor='#10E7DC'
           >
-            <Text style={styles.buttonText}>DRNK</Text>
-          </TouchableOpacity>
+            DRNK
+          </Button>
         </View>
       );
     } else {
@@ -92,26 +99,9 @@ class SearchBar extends Component {
 }
 
 const styles = {
-  button: {
-    backgroundColor: '#10E7DC',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 45,
-    marginTop: 10,
-    marginRight: 10,
-    marginLeft: 10,
-    width: '40%',
-    alignSelf: 'center',
-    borderRadius: 2,
-    shadowOffset:{  width: 0,  height: 1  },
-    shadowColor: '#000000',
-    shadowOpacity: .5,
-  },
-  buttonText: {
-    color: '#44147c',
-    fontSize: 18,
-    fontWeight: 'bold'
+  searchBarContainer: {
+    marginBottom: 15,
+    width: '100%'
   },
   currentLocationSearchOption: {
     marginLeft: 10,
@@ -131,7 +121,8 @@ const styles = {
 }
 
 const mapStateToProps = state => ({
-  searchBar: state.searchBar
+  searchBar: state.searchBar,
+  userLocation: state.userLocation
 })
 
 export default connect(mapStateToProps, { getEventsBySearch, onSearchBarValueChange })(SearchBar);
