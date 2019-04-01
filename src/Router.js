@@ -17,7 +17,7 @@ class RouterComponent extends Component {
             initial
             key="eventsList"
             component={EventList}
-            title='Events'
+            title='DRNK'
             onRight={this.props.toggleSearchBar}
             rightTitle='Search'
           />
