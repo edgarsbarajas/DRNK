@@ -2,7 +2,7 @@ import { SET_USER_LOCATION, SET_USER_LOCATION_ERROR_CODE } from '../actions/type
 
 const INITIAL_STATE = {
   position: {},
-  errorCode: 2
+  errorCode: null
 };
 
 export default (state = INITIAL_STATE, action) => {

@@ -1,7 +1,7 @@
 import { SET_SEARCH_BAR_VALUE, TOGGLE_SEARCH_BAR } from '../actions/types';
 
 const INITIAL_STATE = {
-  city: 'Oakland',
+  city: 'Current Location',
   when: { value: '', index: 0 },
   filter: { value: 'best', index: 0 },
   searchBarVisible: false

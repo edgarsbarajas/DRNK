@@ -22,12 +22,25 @@ class EventList extends Component {
   }
 
   renderEventList() {
-    const { loading, events, userLocation } = this.props;
+    const { loading, events, userLocation, searchBar, city } = this.props;
+
+    console.log('user location', userLocation);
 
     if(loading) {
       console.log('!!!!!!!LOADING BITCH!!!!!!!');
       return <Spinner />;
-    } else if(userLocation.errorCode === 1 && events.length <= 0) { // User denied access to location services.
+    } else if(events.length > 0) {
+      console.log('!!!!!!EVENTS BITCH!!!!!!');
+      return (
+        <FlatList
+          data={events}
+          renderItem={({item}) => <EventTile event={item} />}
+          keyExtractor={item => item.id}
+        />
+      );
+    } else if(events.length <= 0 && userLocation.errorCode !== 1) {
+      return <Text>No events</Text>
+    } else if(userLocation.errorCode === 1 && events.length <= 0 && city === 'Current Location') { // User denied access to location services.
       console.log('!!!!!!NO LOCATION SERVICES BITCH!!!!!!');
       return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginRight: 10, marginLeft: 10}}>
@@ -38,15 +51,6 @@ class EventList extends Component {
             SETTINGS
           </Button>
         </View>
-      );
-    } else if(events.length > 0) {
-      console.log('!!!!!!EVENTS BITCH!!!!!!');
-      return (
-        <FlatList
-          data={events}
-          renderItem={({item}) => <EventTile event={item} />}
-          keyExtractor={item => item.id}
-        />
       );
     }
 
@@ -74,7 +78,8 @@ const styles = {
 const mapStateToProps = state => ({
   events: state.events.events,
   loading: state.events.loading,
-  userLocation: state.userLocation
+  userLocation: state.userLocation,
+  city: state.searchBar.city
 });
 
 export default connect(mapStateToProps, { getEventsByUserLocation })(EventList);
