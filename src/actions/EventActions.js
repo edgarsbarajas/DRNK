@@ -1,12 +1,20 @@
 import axios from 'axios';
 import geolib from 'geolib';
 import { getUserLocation } from './LocationActions';
-import { SET_EVENTS, TOGGLE_SEARCH_BAR, SET_LOADING, SET_USER_LOCATION, SET_USER_LOCATION_ERROR_CODE } from './types';
+import {
+  SET_EVENTS,
+  TOGGLE_SEARCH_BAR,
+  SET_LOADING,
+  SET_USER_LOCATION,
+  SET_USER_LOCATION_ERROR_CODE ,
+  SET_SEARCHED_CITY
+} from './types';
 import { EVENTBRITE_API_KEY } from '../../keys';
 
 export const getEventsByUserLocation = (data = {}) => dispatch => {
   dispatch({ type: SET_EVENTS, payload: [] });
   dispatch({ type: SET_LOADING, payload: true });
+  dispatch({ type: SET_SEARCHED_CITY, payload: 'Current Location'});
 
 
   const { startDateKeyword = '', filter = 'best' } = data;
@@ -42,6 +50,7 @@ export const getEventsByUserLocation = (data = {}) => dispatch => {
 }
 
 export const getEventsBySearch = ({city, startDateKeyword, filter}) => dispatch => {
+  dispatch({ type: SET_SEARCHED_CITY, payload: city});
   dispatch({ type: TOGGLE_SEARCH_BAR });
 
   if(city === 'Current Location') {
@@ -98,9 +107,3 @@ const sortEventsByDistance = (events) => {
     return event1.distanceFromUser - event2.distanceFromUser;
   });
 }
-
-// GETTING EVENTS
-// get location
-  // get events by location
-  // if no location, set error => 'Turn on your location in settings...'
-//

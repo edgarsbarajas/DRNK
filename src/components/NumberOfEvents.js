@@ -3,36 +3,26 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 class NumberOfEvents extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-
-    };
-  }
-
   renderVerbiage() {
-    const { city } = this.props;
-
-    if(city === 'Current Location') {
-      return <Text>near you</Text>;
+    if(this.props.searchedCity === 'Current Location') {
+      return <Text>you</Text>;
     }
 
-    return <Text>in {city}</Text>;
+    return <Text>{this.props.searchedCity}</Text>;
   }
 
   render() {
-    const { city, searchBarVisible ,loading, userLocation, events } = this.props;
+    const { searchedCity, searchBarVisible, events } = this.props;
 
-    if(searchBarVisible || loading || (userLocation.errorCode === 1 && events.length <= 0 && city === 'Current Location')) {
-      return null;
+    if(!searchBarVisible) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.text}>{events.length} events near {this.renderVerbiage()}</Text>
+        </View>
+      );
     }
 
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{events.length} events {this.renderVerbiage()}</Text>
-      </View>
-    );
+    return null;
   }
 }
 
@@ -54,10 +44,8 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-  city: state.searchBar.city,
   searchBarVisible: state.searchBar.searchBarVisible,
-  loading: state.events.loading,
-  userLocation: state.userLocation,
+  searchedCity: state.searchBar.searchedCity,
   events: state.events.events
 });
 
