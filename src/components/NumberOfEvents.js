@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 class NumberOfEvents extends Component {
   renderVerbiage() {
     if(this.props.searchedCity === 'Current Location') {
-      return <Text>near you</Text>;
+      return <Text>you</Text>;
     }
 
-    return <Text>in {this.props.searchedCity}</Text>;
+    return <Text>{this.props.searchedCity}</Text>;
   }
 
   render() {
@@ -17,7 +17,7 @@ class NumberOfEvents extends Component {
     if(!searchBarVisible) {
       return (
         <View style={styles.container}>
-          <Text style={styles.text}>{events.length} events {this.renderVerbiage()}</Text>
+          <Text style={styles.text}>{events.length} events near {this.renderVerbiage()}</Text>
         </View>
       );
     }
