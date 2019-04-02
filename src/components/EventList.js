@@ -33,11 +33,14 @@ class EventList extends Component {
     } else if(events.length > 0) {
       console.log('!!!!!!EVENTS BITCH!!!!!!');
       return (
-        <FlatList
-          data={events}
-          renderItem={({item}) => <EventTile event={item} />}
-          keyExtractor={item => item.id}
-        />
+        <View>
+          <NumberOfEvents />
+          <FlatList
+            data={events}
+            renderItem={({item}) => <EventTile event={item} />}
+            keyExtractor={item => item.id}
+          />
+        </View>
       );
     } else if(userLocation.errorCode === 1 && events.length <= 0 && city === 'Current Location') { // User denied access to location services.
       console.log('!!!!!!NO LOCATION SERVICES BITCH!!!!!!');
@@ -61,7 +64,6 @@ class EventList extends Component {
       <LinearGradient colors={['#320086', '#FF0AF4']} style={styles.linearGradient}>
         <SearchBar />
         <LocationWarningMessage />
-        <NumberOfEvents />
         {this.renderEventList()}
       </LinearGradient>
     );
@@ -71,7 +73,7 @@ class EventList extends Component {
 const styles = {
   linearGradient: {
     flex: 1,
-    paddingBottom: 20
+    paddingBottom: 80
   }
 }
 
