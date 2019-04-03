@@ -7,7 +7,7 @@ import { onSearchBarValueChange } from '../actions/SearchBarActions';
 import Button from './common/Button';
 
 class SearchBar extends Component {
-  componentWillReceiveProps() {
+  componentWillUpdate() {
       LayoutAnimation.easeInEaseOut();
   }
 
@@ -88,7 +88,7 @@ class SearchBar extends Component {
               filter: this.props.searchBar.filter.value
             })}
           >
-            DRNK
+            GO
           </Button>
         </View>
       );
