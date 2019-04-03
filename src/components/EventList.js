@@ -15,7 +15,6 @@ import Button from './common/Button';
 class EventList extends Component {
   componentDidMount() {
     this.props.getEventsByUserLocation();
-    console.log('!!!!!CHECK IF LOADING!!!!! #UPDATED');
   }
 
   componentWillReceiveProps() {
@@ -33,7 +32,7 @@ class EventList extends Component {
     } else if(events.length > 0) {
       console.log('!!!!!!EVENTS BITCH!!!!!!');
       return (
-        <View>
+        <View style={{ marginTop: 10 }}>
           <NumberOfEvents />
           <FlatList
             data={events}
